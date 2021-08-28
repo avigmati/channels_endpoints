@@ -19,3 +19,13 @@ async def get_users(request):
         await sync_to_async(_get)()
     )
 ```
+
+# Installation
+
+```shell
+pip install channels-endpoints
+```
+
+# Usage
+
+See django project example [chat_project](https://github.com/avigmati/chat_project)

@@ -1,8 +1,16 @@
 # Django channels endpoints
 
-This package provides endpoints as functions for 
-[django-channels](https://github.com/django/channels)
-package. Like this:
+This package provides endpoints as functions for django [channels](https://github.com/django/channels)
+package.
+
+# Installation
+
+```shell
+pip install channels-endpoints
+```
+
+# Usage
+In your django app create dce.py file: 
 
 ```python
 from channels_endpoints.main import endpoint, Response
@@ -16,6 +24,9 @@ users_logger = logging.getLogger('users')
 
 @endpoint(logger=users_logger, permissions=[UsersPermissions], timeout=42)
 async def get_users(request):
+    
+    print(request.data)
+    
     def _get():
         return serializers.serialize('python', User.objects.all())
 
@@ -25,12 +36,22 @@ async def get_users(request):
     )
 ```
 
-# Installation
+And in javascript on client side:
 
-```shell
-pip install channels-endpoints
+```js
+import {dce} from "channels_endpoints"
+
+dce('myapp.get_users', {some: "data"}).then(
+    response => {
+        console.log('users:', response)
+    }
+)
 ```
 
-# Usage
+see js client package [https://www.npmjs.com/package/channels_endpoints](https://www.npmjs.com/package/channels_endpoints)
 
-See django project example [chat_project](https://github.com/avigmati/chat_project)
+
+
+# Example
+
+Django project  [example chat](https://github.com/avigmati/chat_project)

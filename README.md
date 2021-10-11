@@ -6,7 +6,7 @@ package.
 # Installation
 
 ```shell
-pip install channels-endpoints
+pip install channels_endpoints
 ```
 
 # Usage

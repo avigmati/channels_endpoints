@@ -40,7 +40,8 @@ class DCEConsumer(AsyncWebsocketConsumer):
         user = self.scope["user"]
 
         if dce_logger:
-            dce_logger.info(f'{user.username} {self.get_client_ip()} connected')
+            username = user.username if not user.is_anonymous else "Anonymous"
+            dce_logger.info(f'{username} {self.get_client_ip()} connected')
 
         r = Response(None, {'version': VERSION}, msg_type='service')
         await self.send(text_data=r)
@@ -49,7 +50,8 @@ class DCEConsumer(AsyncWebsocketConsumer):
         await self.disconnect_modules(close_code)  # call disconnect() coroutines on every loaded module
         self.finish_tasks()  # clear user channel tasks and cancel pending
         if dce_logger:
-            dce_logger.info(f'{self.scope["user"].username} {self.get_client_ip()} disconnected')
+            username = self.scope["user"].username if not self.scope["user"].is_anonymous else "Anonymous"
+            dce_logger.info(f'{username} {self.get_client_ip()} disconnected')
 
     async def receive(self, text_data):
         try:
